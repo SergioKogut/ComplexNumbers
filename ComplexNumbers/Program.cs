@@ -12,12 +12,13 @@ using System.Threading.Tasks;
 (из Википедии):
 • Любое комплексное число может быть представлено
 как формальная сумма x + iy, где x и y — вещественные числа, i — мнимая единица, то есть число, удовлетворяющее уравнению i2 = − 1 
-     
-     
+  Свойства операций над комплексными числами
+Сложение (a + bi) + (c + di) = (a + c) + (b + d)i.
+Вычитание (a + bi) - (c + di) = (a - c) + (b - d)i.
+Умножение (a + bi)(c + di) = (ac - bd) + (bc + ad)i.
+Деление  (a + bi)/(c + di) = (ac + bd)/(c^2  + d^2) + (bc - ad)/(c^2  + d^2 )
+   
 */
-
-
-
 
 namespace ComplexNumber
 {
@@ -131,8 +132,6 @@ namespace ComplexNumber
             return new Complex(c.a + i, c.b);
         }
 
-
-
         //перезавантаження  оператора * для  комплексного числа 
         public static Complex operator *(Complex c1, Complex c2)
         {
@@ -146,21 +145,38 @@ namespace ComplexNumber
         }
 
         //перезавантаження  оператора + для десятичного числа та  комплексного числа 
-        public static Complex operator *(decimal a, Complex c)
+        public static Complex operator *(double a, Complex c)
         {
-            return new Complex((double)a * c.a, (double)a * c.b);
+            return new Complex(a * c.a, a * c.b);
+        }
+        public static Complex operator *(int a, Complex c)
+        {
+            return new Complex(a * c.a, a * c.b);
         }
 
-        //перезавантаження  оператора + для комплексного числа та   десятичного числа 
-        public static Complex operator *(Complex c, decimal a)
+        
+
+        //перезавантаження  оператора * для комплексного числа та   десятичного числа 
+        public static Complex operator *(Complex c, double a)
         {
-            return (double)a * c;
+            return new Complex(a * c.a, a * c.b);
+        }
+
+        //---------------------------------------------------------------------
+        public override bool Equals(Object obj)
+        {
+            return this.ToString()==obj.ToString();
         }
 
         //порівняння двох комплексних чисел
         public static bool operator ==(Complex c1, Complex c2)
         {
-            return c1.a == c2.a && c1.b == c2.b;
+            return c1.Equals(c2);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
         }
 
         //порівняння двох комплексних чисел
@@ -168,6 +184,8 @@ namespace ComplexNumber
         {
             return !(c1 == c2);
         }
+
+//---------------------------------------------------------------------
 
         //приведення  дійсного числа до комплексного
         public static implicit operator Complex(double d)
@@ -183,7 +201,6 @@ namespace ComplexNumber
     }
 
 
-
     class Program
     {
         static void Main(string[] args)
@@ -194,9 +211,6 @@ namespace ComplexNumber
             z1 = z-(z * z * z - 1) / (3 * z * z);
             Console.WriteLine("z1 = {0}", z1);
 
-          //  b = -b;
-            //Console.WriteLine(a);
-            //Console.WriteLine(b);
 
         }
     }
